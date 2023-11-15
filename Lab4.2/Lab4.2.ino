@@ -1,6 +1,6 @@
 // MEAM 5100 Group 1
 // Author: Yining Guo
-// Motor and Encoder feedback control
+// Motor and Encoder feedback control for car assembly
 // Compatible with 9V battery
 
 #include <WiFi.h>
@@ -40,7 +40,7 @@ volatile uint32_t Counter1 = 0;
 volatile uint32_t DownTime2;
 volatile uint32_t Counter2 = 0;
 
-uint32_t interruptsPerSecond1;
+uint32_t interruptsPerSecond1;  //mesure interrupts per second (the pseudo speed of the car)
 uint32_t interruptsPerSecond2;
 
 const double KP = 1.4;
@@ -149,7 +149,7 @@ void handleSlider1() {
   }
   recorder = sliderValue;
   h.sendplain(s);
-} // mode slider
+} // mode slider: move forward, stop, or backward
 
 void handleSlider2() {
   int sliderValue = h.getVal();
@@ -164,7 +164,7 @@ void handleSlider2() {
     ledcAnalogWrite(Motor_channel4,value_map);  // update Motor duty cycle
   }
   h.sendplain(itoa(sliderValue,numberArray,10)); //print slider value to website
-} // speed slider
+} // speed slider duty cycle 0-100%
 
 void handleSlider3() {
   int sliderValue = h.getVal();
@@ -172,7 +172,7 @@ void handleSlider3() {
   int value_map = map(sliderValue,0 , 100, 0, 255);
   ledcAnalogWrite(Servo_channel,value_map);
   h.sendplain(itoa(sliderValue,numberArray,10)); //print slider value to website
-} //servo motor slider
+} //servo motor slider duty cycle 0-100%
 
 void loop() {
   h.serve();
