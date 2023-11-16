@@ -81,28 +81,28 @@ void setup() {
 
   ledcAttachPin(ServoPin, Servo_channel); // servo
   
-  pinMode(DiodePin, INPUT_PULLUP);  // Enable internal pull-up resistor for the switch
+  pinMode(DiodePin, INPUT_PULLUP);  // Enable internal pull-up resistor for the IR LED
   attachInterrupt(digitalPinToInterrupt(DiodePin), handleInterrupt1, FALLING);
 
-  pinMode(DiodePin2, INPUT_PULLUP);  // Enable internal pull-up resistor for the switch
+  pinMode(DiodePin2, INPUT_PULLUP);  // Enable internal pull-up resistor for the IR LED
   attachInterrupt(digitalPinToInterrupt(DiodePin2), handleInterrupt2, FALLING);
 
   IPAddress myIP(192,168,1,130);
   Serial.begin(115200);
-  WiFi.mode(WIFI_MODE_STA);
+  WiFi.mode(WIFI_MODE_STA);    //static mode
   WiFi.begin(ssid, password);
   WiFi.config(myIP,IPAddress(192,168,1,1),IPAddress(255,255,255,0));
   
   while(WiFi.status()!= WL_CONNECTED ) {
     delay(500);
     Serial.print(".");
-  }
+  } //check WiFi conncetion
   Serial.printf("connected to %s on",ssid); 
   Serial.println(myIP);
 
-  h.begin();
+  h.begin();   //start the server
   h.attachHandler("/",handleRoot);
-  h.attachHandler("/setDirection?val=", handleSlider1);
+  h.attachHandler("/setDirection?val=", handleSlider1);    //attach sliders
   h.attachHandler("/setDutyCycle?val=", handleSlider2);
   h.attachHandler("/setServo?val=", handleSlider3);
 }
@@ -118,7 +118,7 @@ int controlFunction(int desired, int sensor){
   if (u > 100) u = 100; /* motor limits */
   if (u < 0) u = 0;
   return u;
-}
+}   //P control
 
 void handleRoot(){
   h.sendhtml(body);
@@ -183,7 +183,8 @@ void loop() {
 
   static uint32_t oldDownTime2;
   static uint32_t oldCounter2;
-  
+
+  // Check interrupts for the first photodiode
   if (DownTime1 - oldDownTime1 >= 1000) {
     interruptsPerSecond1 = Counter1 - oldCounter1;
     Serial.print("Photodiode 1: ");
