@@ -81,10 +81,10 @@ void setup() {
 
   ledcAttachPin(ServoPin, Servo_channel); // servo
   
-  pinMode(DiodePin, INPUT_PULLUP);  // Enable internal pull-up resistor for the IR LED
+  pinMode(DiodePin, INPUT_PULLUP);  // Enable internal pull-up resistor for the photodetector pin
   attachInterrupt(digitalPinToInterrupt(DiodePin), handleInterrupt1, FALLING);
 
-  pinMode(DiodePin2, INPUT_PULLUP);  // Enable internal pull-up resistor for the IR LED
+  pinMode(DiodePin2, INPUT_PULLUP);  // Enable internal pull-up resistor for the photodetector pin
   attachInterrupt(digitalPinToInterrupt(DiodePin2), handleInterrupt2, FALLING);
 
   IPAddress myIP(192,168,1,130);
