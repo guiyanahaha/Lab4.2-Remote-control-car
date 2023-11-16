@@ -5,7 +5,7 @@ const char body[] PROGMEM = R"===(
     <h1>Motor Direction/Speed Sliders</h1>
 
     <div class="slidecontainer">
-      <p>Direction Move Forward/Stop/Backward:</p>
+      <p>Move Forward/Stop/Backward:</p>
       <input type="range" min="1" max="3" value="2" id="directionSlider">
       <span id="directionValue">Move Stop</span> <br>
 
